@@ -54,30 +54,51 @@ function EditCard() {
                         <li className="breadcrumb-item active" aria-current="page">Edit Card {cards.id}</li>
                     </ol>
                 </div>
+                <div className="container">
                 <h2>Edit Card</h2>
                 <form onSubmit={editCardSubmitHandler}>
+                    <div className="row">
+                        <div className="col">
+                            <div>
                     <label htmlFor="edit_card_front">Front</label>
+                    </div>
                     <textarea
                     required
+                    rows="4" cols="40"
                     placeholder={cards.front}
                     name="edit_card_front"
                     type="text"
                     onChange={(event) => setEditCardFront(event.target.value)}
                     value={editCardFront}
                     />
-                    <br />
+                    </div>
+                    <div className="col">
+                        <div>
                     <label htmlFor="edit_card_back">Back</label>
+                    </div>
                     <textarea
                     required
+                    rows="4" cols="40"
                     placeholder={cards.back}
                     name="edit_card_back"
                     type="text"
                     onChange={(event) => setEditCardBack(event.target.value)}
                     value={editCardBack}
                     />
+                    </div>
+                    </div>
                 </form>
-                <button onClick={editCardCancelHandler}>Cancel</button>
-                    <button type="submit">Submit</button>
+                <div className="container">
+        <div className="row">
+        <div className="p-1">
+                <button className="btn btn-secondary"onClick={editCardCancelHandler}>Cancel</button>
+                </div>
+                <div className="p-1">
+                    <button className="btn btn-primary" type="submit">Save</button>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
             </div>
         )
     }

@@ -6,7 +6,6 @@ import FlipCard from '../card-components/FlipCard';
 function StudyDeck() {
     const [ deck, setDeck ] = useState([]);
     const [ cards, setCards ] = useState([]);
-    const [ flip, setFlip ] = useState(false);
 
     const { deckId } = useParams();
 
@@ -26,14 +25,6 @@ function StudyDeck() {
         deckRender();
     }, [deckId]);
 
-    const flipHandler = () => {
-        if (setFlip(!flip)) {
-            return setFlip(true);
-        } else {
-            return setFlip(!flip);
-        }
-    }
-
     if (deck && cards) {
         return (
             <div className="study_deck">
@@ -44,8 +35,12 @@ function StudyDeck() {
                         <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${deckId}/study`}>Study</Link></li>
                     </ol>
                 </nav>
-                <h2>Study: {deck.name}</h2>
-                <FlipCard currentCards={cards} />
+                <h2 className="p-2">Study: {deck.name}</h2>
+                <div className="card">
+                    <div className="card-body">
+                <FlipCard cards={cards} />
+                </div>
+                </div>
             </div>
         )
     }

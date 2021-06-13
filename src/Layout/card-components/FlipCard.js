@@ -1,40 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-function FlipCard({ currentCards }) {
+function FlipCard({ cards }) {
+    const [flip, setFlip] = useState(false);
+    const [viewCard, setViewCard] = useState(undefined);
+    const [cardIndex, setCardIndex] = useState(1);
+    const [viewCardTotal, setViewCardTotal] = useState(0);
+
     const history = useHistory();
     const params = useParams();
 
-    const [cardCount, setCardCount] = useState(1);
-    const [sideOfCard, setSideOfCard] = useState(null);
-    const [studyCardCount, setStudyCardCount] = useState(0);
-    const [studyCard, setStudyCard] = useState(null);
-    const orderedCards = currentCards.sort((a, b) => a.id - b.id);
+    const sortedCards = cards.sort((a, b) => a.id - b.id);
 
     useEffect(() => {
-        if(currentCards.length > 2){
-            setSideOfCard(true);
+        if (cards.length > 2) {
+            setFlip(true);
         }
-        setStudyCard(orderedCards[studyCardCount])
-    }, [currentCards])
+        setViewCard(sortedCards[viewCardTotal])
+    }, [cards, sortedCards, viewCardTotal]);
     
-    const handleFlip = (e) => {
-        e.preventDefault()
-        setSideOfCard(!sideOfCard)
+    const flipButtonHandler = (event) => {
+        event.preventDefault();
+        setFlip(!flip);
     }
 
 
-    const handleNext = (e) => {
+    const nextButtonHandler = (e) => {
         e.preventDefault()
-        setSideOfCard(!sideOfCard)
-        setCardCount((current) => current + 1)
-        setStudyCardCount((current) => current + 1)
-        setStudyCard(orderedCards[studyCardCount + 1])
-        if(currentCards.length <= cardCount){
+        setFlip(!flip);
+        setCardIndex((current) => current + 1)
+        setViewCardTotal((current) => current + 1)
+        setViewCard(sortedCards[viewCardTotal + 1])
+        if(cards.length <= cardIndex){
             if(window.confirm("Restart Cards?")){
-                setCardCount(1);
-                setStudyCardCount(0);
-                setStudyCard(orderedCards[studyCardCount]);
+                setCardIndex(1);
+                setViewCardTotal(0);
+                setViewCard(sortedCards[viewCardTotal]);
                 history.push(`/decks/${params.deckId}/study`)
             } else {history.push("/")}
         }
@@ -45,40 +46,34 @@ function FlipCard({ currentCards }) {
         history.push(`/decks/${params.deckId}/cards/new`)
     }
 
-    if (currentCards) {
-        if ((sideOfCard === true) && studyCard){ 
-            return (
-                <div>
-                    <h5>Card {cardCount} of {currentCards.length}</h5>
-                    {studyCard.front}
-                    <br />
-                    <button onClick={handleFlip}>Flip</button>
-                </div>
-            )
-        }
-        if ((sideOfCard === false) && studyCard){
-            return (
-                <div>
-                    <h5>Card {cardCount} of {currentCards.length}</h5>
-                    {studyCard.back}
-                    <br />
-                    <button onClick={handleFlip}>Flip</button>
-                    <button onClick={handleNext}>Next</button> 
-                </div>
-            )
-        }
-        else {
-            return (
-                <div>
-                    <h5>Not enough cards.</h5>
-                    <p>You need at least 3 cards to study. There are {currentCards.length} in this deck.</p>
-                    <button onClick={handleAddCards}>+ Add Cards</button>
-                </div>
-            )
-        }
-    }
-    return (
-        <p>Loading...</p>
-    )
-}
+    if (cards.length > 2 && viewCard) {
+        return (
+            <div className="container">
+                <h4>Card {cardIndex} of {cards.length}</h4>
+                    {flip ? <p>{viewCard.front}</p> : <p>{viewCard.back}</p>}
+                        <div className="container">
+                            <div className="row">
+                                <div className="p-1">
+                                    <button className="btn btn-secondary" onClick={flipButtonHandler}>Flip</button>
+                                </div>
+                                    {!flip ? (
+                                        <div className="p-1">
+                                            <button className="btn btn-primary" onClick={nextButtonHandler}>Next</button>
+                                        </div>
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                </div>
+                                )
+                            } else {
+                                return (
+                                    <div>
+                                        <h4>Not enough cards.</h4>
+                                            <p>You need at least 3 cards to study. There are {cards.length} in this deck.</p>
+                                                <button className="btn btn-warning"onClick={handleAddCards}>+ Add Cards</button>
+                                            </div>
+                                            )
+                                        }
+                                    };
+
 export default FlipCard;

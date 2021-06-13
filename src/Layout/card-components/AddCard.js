@@ -44,30 +44,52 @@ function AddCard(){
                     <li className="breadcrumb-item active" aria-current="page">Add Card</li>
                 </ol>
             </div>
+            <div className="container">
             <h2>{deck.name}: Add Card</h2>
             <form onSubmit={saveCardHandler}>
+            <div className="row">
+                <div className="col">
+                    <div>
                 <label htmlFor="add_card_front">Front</label>
+                </div>
                 <textarea
                 required
+                rows="4" cols="40"
                 placeholder="Front side of card"
                 name="add_card_front"
                 type="text"
                 onChange={(event) => setFront(event.target.value)}
                 value={front}
                 />
-                <br />
+                </div>
+                <div className="col">
+                <div>
                 <label htmlFor="add_card_back">Back</label>
+                </div>
                 <textarea
                 required
+                rows="4" cols="40"
                 placeholder="Back side of card"
                 name="add_card_back"
                 type="text"
                 onChange={(event) => setBack(event.target.value)}
                 value={back}
                 />
-                <button onClick={doneCardHandler}>Done</button>
-                <button type="submit">Save</button>
+                </div>
+                </div>
+                <br />
+                <div className="container">
+                    <div className="row">
+                    <div className="p-1">
+                <button className="btn btn-secondary"onClick={doneCardHandler}>Cancel</button>
+                </div>
+                <div className="p-1">
+                <button className="btn btn-primary" type="submit">Save</button>
+                </div>
+                </div>
+                </div>
             </form>
+            </div>
         </div>
     )
     };

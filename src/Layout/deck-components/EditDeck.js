@@ -54,18 +54,28 @@ function EditDeck() {
                         <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${deck.id}/edit`}>Edit Deck</Link></li>
                     </ol>
                 </div>
-                <br />
                 <h2>Edit Deck</h2>
                 <div className="container">
                 <form onSubmit={editSubmitHandler}>
+                <div className="row">
+                    <div className="col">
+                        <div>
                     <label htmlFor="edit_deck_name">Name</label>
+                    </div>
                 <input
                 required
                 name="edit_deck_name"
                 onChange={(event) => setName(event.target.value)}
                 value={name}
                 />
-                <br />
+                <div className="pt-5">
+                    <span className="p-1">
+                        <button className="btn btn-secondary" onClick={cancelEditDeckHandler}>Cancel</button>
+                        </span>
+                        <button className="btn btn-primary" type="submit">Save</button>
+                        </div>
+                </div>
+                <div className="col">
                 <label htmlFor="edit_deck_description">Description</label>
                 <textarea
                 rows="5" cols="50"
@@ -74,9 +84,9 @@ function EditDeck() {
                 onChange={(event) => setDescription(event.target.value)}
                 value={description}
                 />
+                </div>
+                </div>
                 </form>
-                <button onClick={cancelEditDeckHandler}>Cancel</button>
-                    <button>Submit</button>
                 </div>
             </div>
         )

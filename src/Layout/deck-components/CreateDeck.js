@@ -33,11 +33,16 @@ function CreateDeck() {
                     <li className="breadcrumb-item active" aria-current="page">Create Deck</li>
                 </ol>
             </div>
-            <h2>Create Deck</h2>
             <div className="container">
+            <h2>Create Deck</h2>
                 <form onSubmit={newDeckSubmitHandler}>
+                    <div className="row">
+                    <div className="col">
+                        <div>
                     <label htmlFor="new_deck_name">Name</label>
+                    </div>
                     <input
+                    className="p-1"
                     required
                     placeholder="Deck Name"
                     name="new_deck_name"
@@ -45,9 +50,20 @@ function CreateDeck() {
                     onChange={(event) => setNewDeckName(event.target.value)}
                     value={newDeckName}
                     />
-                    <br />
+                    <div className="pt-5">
+                        <span className="p-1">
+                    <button className="btn btn-secondary" onClick={cancelNewDeckHandler}>Cancel</button>
+                    </span>
+                    <button className="btn btn-primary" type="submit">Save</button>
+                    </div>
+                    </div>
+                    <div className="col">
+                    <div>
                     <label htmlFor="new_deck_description">Description</label>
+                    </div>
                     <textarea
+                    className="p-1"
+                    rows="5" cols="50"
                     required
                     placeholder="Brief description of the deck"
                     name="new_deck_description"
@@ -55,8 +71,8 @@ function CreateDeck() {
                     onChange={(event) => setNewDeckDescription(event.target.value)}
                     value={newDeckDescription}
                     />
-                    <button onClick={cancelNewDeckHandler}>Cancel</button>
-                    <button type="submit">Submit</button>
+                    </div>
+                    </div>
                 </form>
             </div>
         </div>

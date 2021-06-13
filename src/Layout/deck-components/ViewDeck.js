@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { deleteCard, deleteDeck, readDeck } from '../../utils/api';
+
+import CardList from '../card-components/CardList';
+import Deck from './Deck';
+
+import { deleteDeck, readDeck } from '../../utils/api';
 
 function ViewDeck() {
     const [ deck, setDeck ] = useState([]);
@@ -34,35 +38,47 @@ function ViewDeck() {
 
     if (deck && cards) {
     return (
-        <div className="view_deck">
+        <div className="view_deck pb-5">
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to="/">Home</Link></li>
                     <li className="breadcrumb-item active" aria-current="page">{deck.name}</li>
                 </ol>
             </nav>
-            <h2>{deck.name}</h2>
-            <p>{deck.description}</p>
-            <Link to={`/decks/${deckId}/edit`}>Edit</Link>
-            <Link to={`/decks/${deckId}/study`}>Study</Link>
-            <Link to={`/decks/${deckId}/cards/new`}>Add Cards</Link>
-            <button onClick={deleteDeckHandler}>Delete</button>
-            <h2>Cards</h2>
-            {cards.map((card) => (
-            <div className="card" key={card.id}>
-                <div className="card-body">
-                        <p>{card.front}</p>
-                        <p>{card.back}</p>
-                                    <Link to={`/decks/${deckId}/cards/${card.id}/edit`}>Edit</Link>
-                                    <button onClick={() => {
-                                        if(window.confirm("Delete this card? You will not be able to recover it.")) {
-                                            deleteCard(card.id);
-                                            history.push(`/decks/${deckId}`);
-                                    }}}>Delete</button>
-                                </div>
-                            </div>
-            ))}
-        </div>
+            <div className="container">
+            <h2 className="p-2">View Deck</h2>
+            <div className="card p-1">
+            <div className="card-body">
+            <Deck deck={deck} cards={cards} />
+            <br />
+            <div className="container">
+            <div className="row justify-content-between">
+                    <div className="row">
+            <span className="p-1">
+            <Link className="btn btn-primary" to={`/decks/${deckId}/study`}>Study</Link>
+            </span>
+            <span className="p-1">
+            <Link className="btn btn-warning"to={`/decks/${deckId}/cards/new`}>Add Cards</Link>
+            </span>
+            </div>
+            <div className="row">
+            <span className="p-1">
+            <Link className="btn btn-info" to={`/decks/${deckId}/edit`}>Edit Deck</Link>
+            </span>
+            <span className="p-1">
+            <button className="btn btn-danger" onClick={deleteDeckHandler}>Delete Deck</button>
+            </span>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div className="container justify-content-center">
+            <h3 className="p-2">Cards</h3>
+            <CardList deck={deck} cards={cards} />
+            </div>
+            </div>
     )
     }
     return <p>No decks available...</p>
