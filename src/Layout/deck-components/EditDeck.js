@@ -4,8 +4,8 @@ import { updateDeck, readDeck } from '../../utils/api';
 
 function EditDeck() {
     const [ deck, setDeck ] = useState([]);
-    const [ editDeckName, setEditDeckName ] = useState(deck.name);
-    const [ editDeckDescription, setEditDeckDescription ] = useState(deck.description);
+    const [ name, setName ] = useState("");
+    const [ description, setDescription ] = useState("");
 
     const history = useHistory();
     const { deckId } = useParams();
@@ -16,8 +16,8 @@ function EditDeck() {
             try {
                 const response = await readDeck(deckId);
                 setDeck(response);
-                setEditDeckName(response.editDeckName);
-                setEditDeckDescription(response.editDeckDescription);
+                setName(response.name);
+                setDescription(response.description);
             }  catch (error) {
                 console.log(error);
             }
@@ -27,7 +27,12 @@ function EditDeck() {
     
     const editSubmitHandler = (event) => {
         event.preventDefault();
-        updateDeck(...deck, { editDeckName, editDeckDescription })
+        const updatedDeck = {
+            ...deck,
+            name,
+            description
+        }
+        updateDeck(updatedDeck)
         .then(response => {
             setDeck(response);
             history.push(`/decks/${deck.id}`);
@@ -45,8 +50,8 @@ function EditDeck() {
                 <div aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                        <li className="breadcrumb-item"><Link to={`/decks/${deckId}`}>{deck.name}</Link></li>
-                        <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${deckId}/edit`}>Edit Deck</Link></li>
+                        <li className="breadcrumb-item"><Link to={`/decks/${deck.id}`}>{deck.name}</Link></li>
+                        <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${deck.id}/edit`}>Edit Deck</Link></li>
                     </ol>
                 </div>
                 <br />
@@ -56,26 +61,22 @@ function EditDeck() {
                     <label htmlFor="edit_deck_name">Name</label>
                 <input
                 required
-                placeholder={deck.name}
                 name="edit_deck_name"
-                type="text"
-                onChange={(event) => setEditDeckName(event.target.value)}
-                value={editDeckName}
+                onChange={(event) => setName(event.target.value)}
+                value={name}
                 />
                 <br />
                 <label htmlFor="edit_deck_description">Description</label>
                 <textarea
                 rows="5" cols="50"
                 required
-                placeholder={deck.description}
                 name="edit_deck_description"
-                type="text"
-                onChange={(event) => setEditDeckDescription(event.target.value)}
-                value={editDeckDescription}
+                onChange={(event) => setDescription(event.target.value)}
+                value={description}
                 />
                 </form>
                 <button onClick={cancelEditDeckHandler}>Cancel</button>
-                    <button type="submit">Submit</button>
+                    <button>Submit</button>
                 </div>
             </div>
         )

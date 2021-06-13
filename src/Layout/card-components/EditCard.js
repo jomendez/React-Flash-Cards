@@ -28,7 +28,12 @@ function EditCard() {
     
     const editCardSubmitHandler = (event) => {
         event.preventDefault();
-        updateCard(...cards, {editCardFront, editCardBack})
+        const updatedCard = {
+            ...cards,
+            editCardFront,
+            editCardBack
+        }
+        updateCard(updatedCard)
         .then(response => {
             setCards(response);
             history.push(`/decks/${params.deckId}`);
@@ -67,7 +72,7 @@ function EditCard() {
                     placeholder={cards.back}
                     name="edit_card_back"
                     type="text"
-                    onChange={(event) => editCardBack(event.target.value)}
+                    onChange={(event) => setEditCardBack(event.target.value)}
                     value={editCardBack}
                     />
                 </form>
