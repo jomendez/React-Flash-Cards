@@ -110,8 +110,8 @@ describe("App", () => {
     await act(() => mockDecksPromise);
 
     expect(screen.getByText("Mock Rendering in React")).toBeTruthy();
-    expect(screen.getByText("2 cards")).toBeTruthy();
+    expect(screen.getByText("2 Cards")).toBeTruthy();
     expect(screen.getByText("Mock React Router")).toBeTruthy();
-    expect(screen.getByText("0 cards")).toBeTruthy();
+    expect(screen.getByText("0 Cards")).toBeTruthy();
   });
 });
